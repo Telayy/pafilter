@@ -1,7 +1,5 @@
 <?php
 
-//fetch_data.php
-
 include('database_connection.php');
 
 if(isset($_POST["action"]))
@@ -14,25 +12,18 @@ if(isset($_POST["action"]))
 		 AND product_price BETWEEN '".$_POST["minimum_price"]."' AND '".$_POST["maximum_price"]."'
 		";
 	} **/
-	if(isset($_POST["brand"]))
+	if(isset($_POST["category"]))
 	{
-		$brand_filter = implode("','", $_POST["brand"]);
-		$query .= "AND category_name IN('".$brand_filter."')
+		$category_filter = implode("','", $_POST["category"]);
+		$query .= "AND category_name IN('".$category_filter."')
 		";
 	}
-	if(isset($_POST["ram"]))
+	if(isset($_POST["family"]))
 	{
-		$ram_filter = implode("','", $_POST["ram"]);
-		$query .= "AND family IN('".$ram_filter."')
+		$family_filter = implode("','", $_POST["family"]);
+		$query .= "AND family IN('".$family_filter."')
 		";
 	} 
-/*	if(isset($_POST["storage"]))
-	{
-		$storage_filter = implode("','", $_POST["storage"]);
-		$query .= "
-		 AND product_storage IN('".$storage_filter."')
-		";
-	} **/
 
 	$statement = $connect->prepare($query);
 	$statement->execute();

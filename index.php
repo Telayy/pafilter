@@ -37,6 +37,7 @@ include('database_connection.php');
         	<br />
             <div class="col-md-3"> 
 <!--
+                papalitan ito ng EFFECTIVITY DATE, tanong if date range or one
 				<div class="list-group">
 					<h3>Price</h3>
 					<input type="hidden" id="hidden_minimum_price" value="0" />
@@ -59,7 +60,7 @@ include('database_connection.php');
                     {
                     ?>
                     <div class="list-group-item checkbox">
-                        <label><input type="checkbox" class="common_selector brand" value="<?php echo $row['category_name']; ?>"  > <?php echo $row['category_name']; ?></label>
+                        <label><input type="checkbox" class="common_selector category" value="<?php echo $row['category_name']; ?>"  > <?php echo $row['category_name']; ?></label>
                     </div>
                     <?php
                     }
@@ -80,36 +81,13 @@ include('database_connection.php');
                     {
                     ?>
                     <div class="list-group-item checkbox">
-                        <label><input type="checkbox" class="common_selector ram" value="<?php echo $row['family']; ?>" > <?php echo $row['family']; ?></label>
+                        <label><input type="checkbox" class="common_selector family" value="<?php echo $row['family']; ?>" > <?php echo $row['family']; ?></label>
                     </div>
                     <?php    
                     }
 
                     ?>
                 </div>
-				
-                <!--
-				<div class="list-group">
-					<h3>Internal Storage</h3>
-					<?php
-                    $query = "
-                    SELECT DISTINCT(product_storage) FROM product WHERE product_status = '1' ORDER BY product_storage DESC
-                    ";
-                    $statement = $connect->prepare($query);
-                    $statement->execute();
-                    $result = $statement->fetchAll();
-                    foreach($result as $row)
-                    {
-                    ?>
-                    <div class="list-group-item checkbox">
-                        <label><input type="checkbox" class="common_selector storage" value="<?php echo $row['product_storage']; ?>"  > <?php echo $row['product_storage']; ?> GB</label>
-                    </div>
-                    <?php
-                    }
-                    ?>	
-                </div>
-
-                -->
             </div>
 
             <div class="col-md-9">
@@ -139,15 +117,14 @@ $(document).ready(function(){
     {
         $('.filter_data').html('<div id="loading" style="" ></div>');
         var action = 'fetch_data';
-        var minimum_price = $('#hidden_minimum_price').val();
+        var minimum_price = $('#hidden_minimum_price').val();   //SA DATE ITO, TEL
         var maximum_price = $('#hidden_maximum_price').val();
-        var brand = get_filter('brand');
-        var ram = get_filter('ram');
-        var storage = get_filter('storage');
+        var category = get_filter('category');
+        var family = get_filter('family');
         $.ajax({
             url:"fetch_data.php",
             method:"POST",
-            data:{action:action, minimum_price:minimum_price, maximum_price:maximum_price, brand:brand, ram:ram, storage:storage},
+            data:{action:action, minimum_price:minimum_price, maximum_price:maximum_price, category:category, family:family},
             success:function(data){
                 $('.filter_data').html(data);
             }
